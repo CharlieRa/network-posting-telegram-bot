@@ -43,7 +43,8 @@ const addHashtags = message => {
  * Config for bot
  */
 const telegramBotToken = require('./config/telegram-bot-token');
-const bot = new TeleBot(telegramBotToken.token);
+// const bot = new TeleBot(telegramBotToken.token);
+const bot = new TeleBot('550871717:AAHa6ncP7gIzieWfcRDzeHeJg6g7LVWj_0g');
 
 /**
  * @TODO
@@ -65,9 +66,9 @@ bot.on(commands, msg => {
   /**
    * @TODO
    */
-  facebookPosting.getAccounts(loginResult => {
-    console.log(loginResult);
-  });
+  // facebookPosting.getAccounts(loginResult => {
+  //   console.log(loginResult);
+  // });
 });
 
 /**
@@ -82,21 +83,21 @@ bot.on(['text'], msg => {
    * @TODO
    */
   /* Facebook posting */
-  // facebookPosting.postText(msg.text, result => {
-  //   console.log('result fb', result);
+  facebookPosting.postText(msg.text, resultFB => {
+    console.log('result fb', resultFB);
 
-  //   if (result.success == true) {
-  //     msg.reply.text('Published on Facebook! - ' + resultFB.url);
-  //   } else {
-  //     msg.reply.text('Error to publish on Facebook!, try again please');
-  //   }
-  // });
+    if (resultFB.success == true) {
+      msg.reply.text('Published on Facebook! - ' + resultFB.url);
+    } else {
+      msg.reply.text('Error to publish on Facebook!, try again please');
+    }
+  });
 
   /* Twitter posting */
-  twitterResult = twitterPosting.postText(msg.text, result => {
-    console.log('result twitter', result);
-    if (result.success == true) {
-      msg.reply.text('Published on Twitter! - ' + result.url);
+  twitterResult = twitterPosting.postText(msg.text, resultTW => {
+    console.log('result twitter', resultTW);
+    if (resultTW.success == true) {
+      msg.reply.text('Published on Twitter! - ' + resultTW.url);
     } else {
       msg.reply.text('Error on publish on Twitter!, try again please');
     }

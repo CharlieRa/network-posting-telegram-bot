@@ -1,5 +1,7 @@
 const FB = require('fb');
-const facebbokTokens = require('./config/facebook-token');
+const fbToken = require('./config/facebook-token');
+
+FB.setAccessToken(fbToken.access_token);
 
 /* curl -X GET "https://graph.facebook.com/your-endpoint?key=value&access_token=your-app_id|your-app_secret" */
 const getAccessToken = callback => {
@@ -7,9 +9,9 @@ const getAccessToken = callback => {
     'oauth/access_token',
     'GET',
     {
-      client_id: facebbokTokens.client_id,
-      client_secret: facebbokTokens.client_secret,
-      grant_type: facebbokTokens.grant_type
+      client_id: fbToken.client_id,
+      client_secret: fbToken.client_secret,
+      grant_type: fbToken.grant_type
     },
     response => {
       if (response.error) {
@@ -30,7 +32,7 @@ const getAccessToken = callback => {
         response: response
       };
 
-      FB.setAccessToken(response.access_token);
+      // FB.setAccessToken(response.access_token);
 
       callback(result);
       return;
