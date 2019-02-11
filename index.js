@@ -45,10 +45,13 @@ const addHashtags = message => {
 const telegramBotToken = require('./config/telegram-bot-token');
 const bot = new TeleBot(telegramBotToken.token);
 
+/**
+ * @TODO
+ */
 /* Facebook generate access token */
-facebookPosting.getAccessToken(loginResult => {
-  console.log(loginResult);
-});
+// facebookPosting.getAccessToken(loginResult => {
+//   console.log(loginResult);
+// });
 
 /**
  * Bot welcome and bot commands
@@ -57,8 +60,11 @@ const commands = ['/start'];
 
 bot.on(commands, msg => {
   msg.reply.text(
-    "Welcome, send me a text, image with a caption or forwarded message and I'm going to publish on Social Media!"
+    "Welcome, send me a text, image with a caption or forwarded message and I'm going to publish on Twitter and Facebook!"
   );
+  /**
+   * @TODO
+   */
   facebookPosting.getAccounts(loginResult => {
     console.log(loginResult);
   });
@@ -68,21 +74,23 @@ bot.on(commands, msg => {
  * Bot text message
  */
 bot.on(['text'], msg => {
-  // console.log(msg);
   if (commands.includes(msg.text)) {
     return;
   }
 
+  /**
+   * @TODO
+   */
   /* Facebook posting */
-  facebookPosting.postText(msg.text, result => {
-    console.log('result fb', result);
+  // facebookPosting.postText(msg.text, result => {
+  //   console.log('result fb', result);
 
-    if (result.success == true) {
-      msg.reply.text('Published on Facebook! - ' + resultFB.url);
-    } else {
-      msg.reply.text('Error on publish on Facebook!:, try again please');
-    }
-  });
+  //   if (result.success == true) {
+  //     msg.reply.text('Published on Facebook! - ' + resultFB.url);
+  //   } else {
+  //     msg.reply.text('Error to publish on Facebook!, try again please');
+  //   }
+  // });
 
   /* Twitter posting */
   twitterResult = twitterPosting.postText(msg.text, result => {
@@ -90,7 +98,7 @@ bot.on(['text'], msg => {
     if (result.success == true) {
       msg.reply.text('Published on Twitter! - ' + result.url);
     } else {
-      msg.reply.text('Error on publish on Twitter!:, try again please');
+      msg.reply.text('Error on publish on Twitter!, try again please');
     }
   });
 });
@@ -131,29 +139,31 @@ bot.on(['photo', 'forward'], msg => {
     }
     fileImageUrl = fileImageUrl + result.result.file_path;
 
+    /**
+     * TODO
+     */
     /* Facebool posting */
-    facebookPosting.postPhoto(
-      msg.caption,
-      'Super Photo',
-      fileImageUrl,
-      resultFB => {
-        console.log('result fb', resultFB);
+    // facebookPosting.postPhoto(
+    //   msg.caption,
+    //   'Super Photo',
+    //   fileImageUrl,
+    //   resultFB => {
+    //     console.log('result fb', resultFB);
 
-        if (resultFB.success == true) {
-          msg.reply.text('Published on Facebook! - ' + resultFB.url);
-        } else {
-          msg.reply.text('Error on publish on Facebook!:, try again please');
-        }
-      }
-    );
+    //     if (resultFB.success == true) {
+    //       msg.reply.text('Published on Facebook! - ' + resultFB.url);
+    //     } else {
+    //       msg.reply.text('Error on publish on Facebook!:, try again please');
+    //     }
+    //   }
+    // );
 
+    /* Twitter Posting */
     download(fileImageUrl, './images/downloadedPostImage.png', () => {
-      /* twitter part */
       var b64content = fs.readFileSync('./images/downloadedPostImage.png', {
         encoding: 'base64'
       });
 
-      /* */
       twitterPosting.postPhoto(msg.caption, b64content, resultTwitter => {
         console.log('result twitter', resultTwitter);
         if (resultTwitter.success == true) {
