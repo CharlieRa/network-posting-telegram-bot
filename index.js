@@ -43,8 +43,6 @@ const addHashtags = message => {
  * Config for bot
  */
 const telegramBotToken = require('./config/telegram-bot-token');
-// const bot = new TeleBot(telegramBotToken.token);
-const bot = new TeleBot('550871717:AAHa6ncP7gIzieWfcRDzeHeJg6g7LVWj_0g');
 
 /**
  * @TODO
